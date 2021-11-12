@@ -6,18 +6,24 @@ case class Product(id: Int, name: String, price: Double, productType: String) {
 
 object Product {
 
-  private var productList: List[Product] = List()
+  val productList = Seq(
+    Product(1, "Tomato", 10.10, "VEGETABLE"),
+    Product(2, "Sandwich with ham", 5.10, "SANDWICHES"),
+    Product(3, "Ice cream", 3.11, "SWEET"),
+    Product(4, "Sandwich", 4.95, "SANDWICHES"),
+    Product(5, "Pepper", 2.99, "SPICES"),
+    Product(6, "Chicken", 13.29, "MEAT"),
+  )
 
-  def all: List[Product] = {
-    productList
+  def getProductById(id: Int): Seq[Product] = {
+    productList.filter(a => a.id.equals(id))
   }
 
-  def add(productName: String): Unit = {
-    val newId: Int = productList.last.id + 1
-    productList = productList ++ List(Product(newId, productName, 0, null))
+  def getProductByName(name: String): Seq[Product] = {
+    productList.filter(a => a.name.contains(name))
   }
 
-  def delete(productId: Int) = {
-    productList = productList.filterNot(product => product.id == product.id)
+  def getProductsByType(productType: String): Seq[Product] = {
+    productList.filter(a => a.productType == productType)
   }
 }

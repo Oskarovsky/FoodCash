@@ -13,10 +13,15 @@ GET     /message                    controllers.AsyncController.message
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
-GET     /purchase                    controllers.PurchaseController.getAllPurchases
 
-GET     /products                    controllers.ProductController.getProducts
-GET     /product/:productId          controllers.ProductController.getProductById(productId: Int)
-POST    /product                    controllers.ProductController.addProduct
+# VIEW
+GET     /products                    controllers.ProductController.productsList
+GET     /purchases                    controllers.PurchaseController.getAllPurchases
+
+# API
+
+GET     /api/product                    controllers.ProductController.productsList
+GET     /api/product/:productId          controllers.ProductController.getProductById(productId: Int)
+GET     /api/product/type/:productType   controllers.ProductController.getProductsByType(productType: String)
 
 #->     /products                    routers.ProductRouter.routes

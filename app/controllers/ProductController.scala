@@ -2,12 +2,9 @@ package controllers
 
 import models.{Product, ProductDto}
 import play.api.libs.json.Json
-
-import javax.inject.{Inject, Singleton}
 import play.api.mvc._
 
-import scala.collection.mutable.ListBuffer
-import scala.concurrent._
+import javax.inject.{Inject, Singleton}
 
 @Singleton
 class ProductController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
@@ -15,10 +12,6 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
   implicit val productListJson = Json.format[Product]
 
   implicit val productDtoJson = Json.format[ProductDto]
-
-//  private val productList = new ListBuffer[Product]
-//  productList += Product(1, "Tomato")
-//  productList += Product(2, "Sandwich")
 
   val productList = Seq(
     Product(1, "Tomato", 10.10, "VEGETABLE"),
@@ -29,7 +22,18 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
     Product(6, "Chicken", 13.29, "MEAT"),
   )
 
-  def getProducts: Action[AnyContent] = Action {
+  /* VIEW */
+  def productsList: Action[AnyContent] = Action {
+    Ok(views.html.productList(productList))
+  }
+
+  def productInfo(productId: Int): Action[AnyContent] = Action {
+    Ok(views.html.product(Product.getProductById(productId).head))
+  }
+
+  /* API */
+
+  def getProductsList: Action[AnyContent] = Action {
     if (productList.isEmpty) {
       NoContent
     } else {
@@ -45,27 +49,14 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
     }
   }
 
-  def getProductByName(name: String): Seq[Product] = {
-    productList.filter(a => a.name.contains(name))
-  }
-
-  def getProductsByType(productType: String): Seq[Product] = {
-    productList.filter(a => a.productType == productType)
-  }
-
-  def addProduct() = Action(parse.formUrlEncoded) {
-    implicit request => {
-      Product.add(request.body("productName").head)
-      Redirect(routes.ProductController.getProducts)
+  def getProductsByType(productType: String): Action[AnyContent] = Action {
+    val foundProduct = Product.getProductsByType(productType)
+    if (foundProduct.isEmpty) {
+      NoContent
+    } else {
+      Ok(Json.toJson(foundProduct))
     }
   }
-
-  def deleteProduct(id: Int) = Action {
-    Product.delete(id)
-    Ok
-  }
-
-
 
 
 }

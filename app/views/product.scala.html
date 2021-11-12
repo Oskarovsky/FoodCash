@@ -1,25 +1,15 @@
-@(products: List[Product])
+@(product: Product)
 
 @main("Product Manager") {
-    <h2>Product Manager</h2>
-    <div>
-        <div>
-            <form action="" method="post">
-                <input type="text" name="taskName" placeholder="Add a
-              new Task" required>
-                <input type="submit" value="Add">
-            </form>
-        </div>
-    </div>
+    <h2>Information about product - @product</h2>
     <div>
         <ul>
-        @products.map { product =>
             <li>
+                @product.id
                 @product.name
                 @product.price
                 @product.productType
             </li>
-        }
         </ul>
     </div>
 }

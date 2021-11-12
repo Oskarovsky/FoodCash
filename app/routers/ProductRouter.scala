@@ -14,12 +14,12 @@ class ProductRouter @Inject()(val controller: ProductController) extends SimpleR
 
   override def routes: Routes = {
     case GET(p"/") =>
-      controller.getProducts
+      controller.productsList
 
 //    case POST(p"/") =>
 //      controller.process
 //
-//    case GET(p"/$id") =>
-//      controller.show(id)
+    case GET(p"/$id") =>
+      controller.productInfo(id.toInt)
   }
 }
