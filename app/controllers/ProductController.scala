@@ -23,21 +23,32 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
   )
 
   /* VIEW */
-  def productsList: Action[AnyContent] = Action {
-    Ok(views.html.productList(productList))
+  def productsList(name: String = "", productType: String = ""): Action[AnyContent] = Action {
+    val products = Product.getProductsByNameOrType(name, productType)
+    if (products.isEmpty) {
+      NoContent
+    } else {
+      Ok(views.html.productList(products))
+    }
   }
 
   def productInfo(productId: Int): Action[AnyContent] = Action {
-    Ok(views.html.product(Product.getProductById(productId).head))
+    val product = Product.getProductById(productId)
+    if (product.isEmpty) {
+      NoContent
+    } else {
+      Ok(views.html.product(Product.getProductById(productId).head))
+    }
   }
 
   /* API */
 
-  def getProductsList: Action[AnyContent] = Action {
-    if (productList.isEmpty) {
-      NoContent
+  def getProductsList(name: String = "", productType: String = ""): Action[AnyContent] = Action {
+    val products = Product.getProductsByNameOrType(name, productType)
+    if (products.isEmpty) {
+      NotFound
     } else {
-      Ok(Json.toJson(productList))
+      Ok(Json.toJson(products))
     }
   }
 

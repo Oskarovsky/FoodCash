@@ -26,4 +26,12 @@ object Product {
   def getProductsByType(productType: String): Seq[Product] = {
     productList.filter(a => a.productType == productType)
   }
+
+  def getProductsByNameOrType(name: String, productType: String): Seq[Product] = {
+    if (name.nonEmpty || productType.nonEmpty) {
+      productList.filter(a => a.name == name || a.productType == productType)
+    } else {
+      productList
+    }
+  }
 }

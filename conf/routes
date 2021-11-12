@@ -15,12 +15,14 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 
 # VIEW
-GET     /products                    controllers.ProductController.productsList
-GET     /purchases                    controllers.PurchaseController.getAllPurchases
+GET     /product                     controllers.ProductController.productsList(name: String?="" , productType: String?="")
+GET     /purchase                    controllers.PurchaseController.purchasesList
+GET     /product/:productId          controllers.ProductController.productInfo(productId: Int)
+
 
 # API
 
-GET     /api/product                    controllers.ProductController.productsList
+GET     /api/product                    controllers.ProductController.getProductsList(name: String?="" , productType: String?="")
 GET     /api/product/:productId          controllers.ProductController.getProductById(productId: Int)
 GET     /api/product/type/:productType   controllers.ProductController.getProductsByType(productType: String)
 
