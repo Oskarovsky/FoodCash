@@ -14,7 +14,7 @@ class ProductRouter @Inject()(val controller: ProductController) extends SimpleR
 
   override def routes: Routes = {
     case GET(p"/") =>
-      controller.productsList()
+      controller.productsList(null, null)
 
 //    case POST(p"/") =>
 //      controller.process

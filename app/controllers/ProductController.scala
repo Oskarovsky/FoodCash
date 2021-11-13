@@ -23,7 +23,7 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
   )
 
   /* VIEW */
-  def productsList(name: String = "", productType: String = ""): Action[AnyContent] = Action {
+  def productsList(name: Option[String], productType: Option[String]): Action[AnyContent] = Action {
     val products = Product.getProductsByNameOrType(name, productType)
     if (products.isEmpty) {
       NoContent
@@ -43,7 +43,7 @@ class ProductController @Inject()(val controllerComponents: ControllerComponents
 
   /* API */
 
-  def getProductsList(name: String = "", productType: String = ""): Action[AnyContent] = Action {
+  def getProductsList(name: Option[String], productType: Option[String]): Action[AnyContent] = Action {
     val products = Product.getProductsByNameOrType(name, productType)
     if (products.isEmpty) {
       NotFound

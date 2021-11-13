@@ -12,7 +12,9 @@ object Product {
     Product(3, "Ice cream", 3.11, "SWEET"),
     Product(4, "Sandwich", 4.95, "SANDWICHES"),
     Product(5, "Pepper", 2.99, "SPICES"),
-    Product(6, "Chicken", 13.29, "MEAT"),
+    Product(6, "Salt", 1.99, "SPICES"),
+    Product(7, "Chicken", 13.29, "MEAT"),
+    Product(8, "Chicken Wings", 22.44, "MEAT"),
   )
 
   def getProductById(id: Int): Seq[Product] = {
@@ -27,11 +29,20 @@ object Product {
     productList.filter(a => a.productType == productType)
   }
 
-  def getProductsByNameOrType(name: String, productType: String): Seq[Product] = {
-    if (name.nonEmpty || productType.nonEmpty) {
-      productList.filter(a => a.name == name || a.productType == productType)
-    } else {
-      productList
+  def getProductsByNameOrType(name: Option[String], productType: Option[String]): Seq[Product] = {
+    name match {
+      case Some(n) =>
+        if (productType.isDefined) {
+          productList.filter(a => a.name == name.get || a.productType == productType.get)
+        } else {
+          getProductByName(name.get)
+        }
+      case None =>
+        if (productType.isDefined) {
+          productList.filter(a => a.productType == productType.get)
+        } else {
+          productList
+        }
     }
   }
 }
